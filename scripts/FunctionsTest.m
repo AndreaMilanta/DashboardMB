@@ -1,4 +1,4 @@
-% scripts to test functiona 
+% scripts to test functions 
 
 import ImageProcessing.CAD.*;
 import Constants.Enums.*;

@@ -6,7 +6,7 @@
 % -- refPos <- position to consider on the array (BR, MR, TR, BC, MC, TC, BL, CL, TL)
 function coords = GetArrayCoordinates(cad, refPos)
     imports();                            % imports required packages
-
+    
     coords = 0;
 end
 
