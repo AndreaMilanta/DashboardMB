@@ -1,6 +1,6 @@
+classdef RefPos < uint32
 % Enum defining position of reference point on a panel
 
-classdef RefPos < uint32
    enumeration
       BottomRight (1)
       MiddleRight (2)

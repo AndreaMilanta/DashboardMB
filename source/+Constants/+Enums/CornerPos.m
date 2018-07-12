@@ -1,6 +1,6 @@
+classdef CornerPos < uint32
 % Enum to identify corners
 
-classdef CornerPos < uint32
     enumeration
         BottomRight (1)
         BottomLeft (2)
