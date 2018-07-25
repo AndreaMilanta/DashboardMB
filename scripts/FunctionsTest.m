@@ -1,14 +1,14 @@
 % scripts to test functions 
 
-import DBInterface.*;
+import Constants.*;
+import ImageProcessing.Rectification.*;
 
-try
-    h_read = DBHandler.Reader();
-    data = h_read.select('SELECT * from DefectTypes');
-    disp(data);
-    h_read.Close();
-    delete(h_read);
-    clear h_read;
-catch ME
-    disp(getReport(ME, 'basic'));
-end
+
+
+path = strcat(Consts.ProjectPath, 'data\SommaLombarda\FirstVisit\');
+imgName = 'C12-I3.2 - 01.jpg';
+img = imread(strcat(path,imgName));
+
+% imshow(img);
+rect = Rectify(img);
+% imshow(rect);

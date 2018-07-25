@@ -33,7 +33,7 @@ classdef DBHandler < handle
         % private constructor for singleton
         function obj = DBHandler(username, password)
             % Set data handling formats
-            setdbprefs('DataReturnFormat', 'cellarray');
+            setdbprefs('DataReturnFormat','table')
             setdbprefs('NullNumberRead', 'NaN');
             setdbprefs('NullStringRead', 'null');
             obj.p_username = username;
