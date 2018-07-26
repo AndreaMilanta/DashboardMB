@@ -12,18 +12,20 @@ threshold = [0.1, 0.3];
 edges = edge(rgb2gray(filt), 'Canny', threshold);
 
 % compute GPS to Coordinates
-GPSExample = [44.481640, 11.846063];
+GPSExample = [44.480907, 11.847145];
 
-tr = Consts.GPS2PxConversionTransform(SommaLombardaConsts.ref1Px, SommaLombardaConsts.ref1GPS, ...
-     SommaLombardaConsts.ref2Px, SommaLombardaConsts.ref2GPS);
+tr = Consts.GPS2PxConversionTransform(SommaLombardaConsts.PXref, SommaLombardaConsts.GPSref)
  
 px = Consts.GPS2Px(GPSExample,tr);
-ref1 = Consts.GPS2Px(SommaLombardaConsts.ref1GPS,tr);
-ref2 = Consts.GPS2Px(SommaLombardaConsts.ref2GPS,tr);
+% ref1 = Consts.GPS2Px(SommaLombardaConsts.GPSref(1,:),tr)
+% ref2 = Consts.GPS2Px(SommaLombardaConsts.GPSref(2,:),tr)
+% ref3 = Consts.GPS2Px(SommaLombardaConsts.GPSref(3,:),tr)
+
 figure(1);
 imshow(filt); hold on;
-plot(ref1(1), ref1(2), 'g*', 'LineWidth', 2, 'MarkerSize', 10);
-plot(ref2(1), ref2(2), 'r*', 'LineWidth', 2, 'MarkerSize', 10);
+% plot(ref1(1), ref1(2), 'g*', 'LineWidth', 2, 'MarkerSize', 10);
+% plot(ref2(1), ref2(2), 'r*', 'LineWidth', 2, 'MarkerSize', 10);
+% plot(ref3(1), ref3(2), 'b*', 'LineWidth', 2, 'MarkerSize', 10);
 plot(px(1), px(2), 'b*', 'LineWidth', 2, 'MarkerSize', 10)
 
 % get and display filares

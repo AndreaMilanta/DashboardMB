@@ -4,7 +4,7 @@ classdef Consts
     
     properties (Constant)
         ProjectPath = GetPath();
-        VisualDefaultSize = [500, 400]
+        VisualDefaultSize = [500, 400];
     end
     
     methods (Static, Access = public)
@@ -72,22 +72,34 @@ classdef Consts
             filtered(repmat(mask,[1 1 3])) = substitute; 
         end
         
-        function trasf = GPS2PxConversionTransform(r1Px, r1GPS, r2Px, r2GPS)
+%         function trasf = GPS2PxConversionTransform(r1Px, r1GPS, r2Px, r2GPS)
+%             % Compute left-matrix to trasform from GPS to pixel coordinates
+%             a = ((r1Px(1).*r2GPS(2)) - (r2Px(1).*r1GPS(2))) / ...
+%                 ((r2GPS(2).*r1GPS(1)) - (r1GPS(2).*r2GPS(1)));
+%             b = ((r1Px(1).*r2GPS(1)) - (r2Px(1).*r1GPS(1))) / ...
+%                 ((r1GPS(2).*r2GPS(1) - (r2GPS(2).*r1GPS(1))));
+%             c = ((r1Px(2).*r2GPS(2)) - (r2Px(2).*r1GPS(2))) / ...
+%                 ((r2GPS(2).*r1GPS(1) - (r1GPS(2).*r2GPS(1))));
+%             d = ((r1Px(2).*r2GPS(1)) - (r2Px(2).*r1GPS(1))) / ...
+%                 ((r1GPS(2).*r2GPS(1) - (r2GPS(2).*r1GPS(1))));
+%             trasf = [a, b; c, d];
+%         end
+        function trasf = GPS2PxConversionTransform(Px, GPS)
             % Compute left-matrix to trasform from GPS to pixel coordinates
-            a = ((r1Px(1)*r2GPS(2)) - (r2Px(1)*r1GPS(2))) \ ...
-                ((r2GPS(2)*r1GPS(1) - (r1GPS(2)*r2GPS(1))));
-            b = ((r1Px(1)*r2GPS(1)) - (r2Px(1)*r1GPS(1))) \ ...
-                ((r1GPS(2)*r2GPS(1) - (r2GPS(2)*r1GPS(1))));
-            c = ((r1Px(2)*r2GPS(2)) - (r2Px(2)*r1GPS(2))) \ ...
-                ((r2GPS(2)*r1GPS(1) - (r1GPS(2)*r2GPS(1))));
-            d = ((r1Px(2)*r2GPS(1)) - (r2Px(2)*r1GPS(1))) \ ...
-                ((r1GPS(2)*r2GPS(1) - (r2GPS(2)*r1GPS(1))));
-            trasf = [a, b; c, d];
-            trasf = [-142614, 535689; 50313.8, -188856];
+            b = (((Px(3,1) - Px(1,1)) / (GPS(3,1) - GPS(1,1))) + ((Px(1,1) - Px(2,1)) / (GPS(2,1) - GPS(1,1)))) / ...
+                (((GPS(1,2) - GPS(2,2)) / (GPS(2,1) - GPS(1,1))) + ((GPS(3,2) - GPS(1,2)) / (GPS(3,1) - GPS(1,1))));
+            a = (Px(2,1) - Px(1,1) + b*GPS(1,2) - b*GPS(2,2)) / (GPS(2,1) - GPS(1,1));
+            c = Px(1,1) - a*GPS(1,1) - b*GPS(1,2);
+            e = (((Px(3,2) - Px(1,2)) / (GPS(3,1) - GPS(1,1))) + ((Px(1,2) - Px(2,2)) / (GPS(2,1) - GPS(1,1)))) / ...
+                (((GPS(1,2) - GPS(2,2)) / (GPS(2,1) - GPS(1,1))) + ((GPS(3,2) - GPS(1,2)) / (GPS(3,1) - GPS(1,1))));
+            d = (Px(2,2) - Px(1,2) + e*GPS(1,2) - e*GPS(2,2)) / (GPS(2,1) - GPS(1,1));
+            f = Px(1,2) - d*GPS(1,1) - e*GPS(1,2);
+            trasf = [a, b, c; d, e, f];
         end
         
         function pxCoords = GPS2Px(GPSCoords, trasf)
-            pxCoords = trasf * GPSCoords';
+            pxCoords = (trasf(1:2,1:2) * GPSCoords');
+            pxCoords = pxCoords + trasf(:,3);
         end
     end
 end

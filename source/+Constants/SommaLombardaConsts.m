@@ -8,10 +8,12 @@ classdef SommaLombardaConsts
         MinFilareWidth = GetMinFilareWidth();
         
         % Reference points for GPS to pixel conversion
-        ref1GPS = [44.481679, 11.843126];
-        ref1Px = [533.0, 1393.0];
-        ref2GPS = [44.482704, 11.847418];
-        ref2Px = [2686.0, 634.0];
+        GPSref = [44.481679, 11.843126 ; ...
+                  44.483430, 11.842601 ; ...
+                  44.482704, 11.847418];
+        PXref = [533.0, 1393.0 ; ...
+                  242.0, 159.0 ; ...
+                  2686.0, 634.0];
     end
     
     methods (Static, Access = public)
